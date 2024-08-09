@@ -1,5 +1,6 @@
-# Maintainer: Daniel Maslowski <info@orangecms.org>
-# Co-Maintainer: Ke Liu <specter119@gmail.com>
+# Maintainer: Brian Thompson <brianrobt@pm.me>
+# Contributor: Daniel Maslowski <info@orangecms.org>
+# Contributor: Ke Liu <specter119@gmail.com>
 
 pkgname=python-libmamba
 pkgver=1.5.8
