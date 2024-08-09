@@ -5,20 +5,31 @@ pkgname=python-libmamba
 pkgver=1.5.8
 _srcver=2024.03.25
 _name=mamba-$_srcver
-pkgrel=1
+pkgrel=2
 pkgdesc="The fast cross-platform package manager"
 arch=('any')
 url="https://github.com/mamba-org/mamba"
-license=('BSD')
+license=('BSD-3-Clause')
 depends=(
+  'python>=3.9'
+  'yaml-cpp>=0.8.0'
+)
+makedepends=(
+  'ccache'
+  'cli11'
   'cmake>=3.18'
-  'python>=3.7'
+  'doctest'
+  'libsolv'
+  'nlohmann-json'
+  'python-build'
+  'python-installer'
   'python-scikit-build>=0.13'
   'python-setuptools>=42'
   'python-ninja'
   'python-wheel'
+  'tl-expected'
+  'reproc'
 )
-makedepends=('python-setuptools')
 provides=('python-libmamba')
 #options=(!emptydirs)
 #backup=(etc/conda/condarc)
@@ -32,13 +43,28 @@ prepare() {
 }
 
 build() {
+  cd $srcdir/${_name}
+  cmake -B build/ -G Ninja \
+    -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ \
+    -D CMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+    -D BUILD_LIBMAMBA=ON \
+    -D BUILD_LIBMAMBAPY=ON \
+    -D BUILD_MICROMAMBA=OFF \
+    -D BUILD_MAMBA_PACKAGE=OFF \
+    --preset mamba-shared-debug
+  cmake --build build/ --parallel
+
   cd $srcdir/${_name}/libmambapy
-  python setup.py build
+  python -m build --wheel --no-isolation
 }
 
 package() {
+  cd $srcdir/${_name}
+  cmake --install build/ --prefix "$pkgdir/usr"
+
   cd $srcdir/${_name}/libmambapy
-  python setup.py install --root=$pkgdir --optimize=1 --skip-build
+  rm -rf test_dir
+  python -m installer --destdir=test_dir dist/*.whl
  
   install -Dm 644 LICENSE $pkgdir/usr/share/licenses/${pkgname}/LICENSE.txt
 }
