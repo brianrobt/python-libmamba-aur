@@ -5,32 +5,38 @@ pkgname=python-libmamba
 pkgver=1.5.8
 _srcver=2024.03.25
 _name=mamba-$_srcver
-pkgrel=2
+pkgrel=3
 pkgdesc="The fast cross-platform package manager"
-arch=('any')
+arch=('x86_64')
 url="https://github.com/mamba-org/mamba"
 license=('BSD-3-Clause')
 depends=(
+  'fmt'
+  'libsolv'
   'python>=3.9'
+  'reproc'
   'yaml-cpp>=0.8.0'
 )
 makedepends=(
-  'ccache'
+  # header-only libs
   'cli11'
+  'spdlog'
+  'tl-expected'
+  'nlohmann-json'
+  # C++ build tools
+  'ccache'
   'cmake>=3.18'
   'doctest'
-  'libsolv'
-  'nlohmann-json'
+  'ninja'
+  'pybind11'
+  # python build tools
   'python-build'
   'python-installer'
   'python-scikit-build>=0.13'
   'python-setuptools>=42'
-  'python-ninja'
   'python-wheel'
-  'tl-expected'
-  'reproc'
 )
-provides=('python-libmamba')
+provides=('libmamba')
 #options=(!emptydirs)
 #backup=(etc/conda/condarc)
 source=(
@@ -63,8 +69,7 @@ package() {
   cmake --install build/ --prefix "$pkgdir/usr"
 
   cd $srcdir/${_name}/libmambapy
-  rm -rf test_dir
-  python -m installer --destdir=test_dir dist/*.whl
+  python -m installer --destdir="$pkgdir" dist/*.whl
  
   install -Dm 644 LICENSE $pkgdir/usr/share/licenses/${pkgname}/LICENSE.txt
 }
