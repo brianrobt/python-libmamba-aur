@@ -1,7 +1,7 @@
 pkgbase = python-libmamba
 	pkgdesc = The fast cross-platform package manager
-	pkgver = 1.5.8
-	pkgrel = 3
+	pkgver = 1.5.9
+	pkgrel = 1
 	url = https://github.com/mamba-org/mamba
 	arch = x86_64
 	license = BSD-3-Clause
@@ -25,7 +25,7 @@ pkgbase = python-libmamba
 	depends = reproc
 	depends = yaml-cpp>=0.8.0
 	provides = libmamba
-	source = mamba-2024.03.25-1.5.8.tar.gz::https://github.com/mamba-org/mamba/archive/refs/tags/2024.03.25.tar.gz
-	sha512sums = 93263defae3a5ef0cd4ea16b1a9ac2bcdc63e0091043d6975fb2d4d9b5430eed224a33dcf4336e7967646b80204ce17f1190be31c2ca2b6725d424ee5f5c13bc
+	source = mamba-2024.08.31-1.5.9.tar.gz::https://github.com/mamba-org/mamba/archive/refs/tags/2024.08.31.tar.gz
+	sha512sums = 7b3b8891acae69bd7fa62b304c8d91fcb02bc6c653e7d25d4cc73b97fa1ed4bf85aa21a71dbb5fd608b233eb9647665f5bd0c956fc430e769b151a7e424cedd2
 
 pkgname = python-libmamba
